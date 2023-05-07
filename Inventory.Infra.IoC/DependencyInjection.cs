@@ -16,7 +16,7 @@ namespace Inventory.Infra.IoC
 		public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 		{
 			var connectionString = configuration.GetConnectionString("DefaultConnection");
-			services.AddDbContext<AppDbContext>(options =>
+			services.AddDbContextPool<AppDbContext>(options =>
 				options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 			services.AddServices();
 			services.AddRepositories();
