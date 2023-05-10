@@ -1,38 +1,37 @@
 ﻿using FluentValidation.Results;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Inventory.Domain.Entities
+namespace Inventory.Domain.Entities;
+
+public abstract class Entity
 {
-	public abstract class Entity
+	public int Id { get; set; }
+	public DateTime CreatedAt { get; set; }
+	public DateTime UpdatedAt { get; set; }
+
+	[NotMapped]
+	public ValidationResult ValidationResult { get; set; }
+
+	public Entity()
 	{
-		public int Id { get; set; }
-		public DateTime CreatedAt { get; set; }
-		public DateTime UpdatedAt { get; set; }
+		var now = DateTime.Now;
+		CreatedAt = now;
+		UpdatedAt = now;
 
-		[NotMapped]
-		public ValidationResult ValidationResult { get; set; }
+		ValidationResult = new ValidationResult();
+	}
 
-		public Entity()
-		{
-			var now = DateTime.Now;
-			CreatedAt = now;
-			UpdatedAt = now;
+	public abstract bool IsValid();
 
-			ValidationResult = new ValidationResult();
-		}
+	public Error? GetErrors()
+	{
+		var errorsDetail = ValidationResult.Errors.GroupBy(x => new { x.PropertyName }).Select(x => new ErrorDetails(x.Key.PropertyName, x.Select(s => s.ErrorMessage).ToList())).ToList();
 
-		public abstract bool IsValid();
+		if (errorsDetail.Count == 0)
+			return null;
 
-		public Error? GetErrors()
-		{
-			var errorsDetail = ValidationResult.Errors.GroupBy(x => new { x.PropertyName }).Select(x => new ErrorDetails(x.Key.PropertyName, x.Select(s => s.ErrorMessage).ToList())).ToList();
+		var errors = new Error(errorsDetail);
 
-			if (errorsDetail.Count == 0)
-				return null;
-
-			var errors = new Error(errorsDetail);
-
-			return errors;
-		}
+		return errors;
 	}
 }

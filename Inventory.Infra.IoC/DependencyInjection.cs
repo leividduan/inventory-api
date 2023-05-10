@@ -9,39 +9,38 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Inventory.Infra.IoC
+namespace Inventory.Infra.IoC;
+
+public static class DependencyInjection
 {
-	public static class DependencyInjection
+	public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 	{
-		public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-		{
-			var connectionString = configuration.GetConnectionString("DefaultConnection");
-			services.AddDbContextPool<AppDbContext>(options =>
-				options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-			services.AddServices();
-			services.AddRepositories();
-			services.AddFluentValidations();
+		var connectionString = configuration.GetConnectionString("DefaultConnection");
+		services.AddDbContextPool<AppDbContext>(options =>
+			options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+		services.AddServices();
+		services.AddRepositories();
+		services.AddFluentValidations();
 
-			return services;
-		}
+		return services;
+	}
 
-		public static IServiceCollection AddRepositories(this IServiceCollection services)
-		{
-			services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+	public static IServiceCollection AddRepositories(this IServiceCollection services)
+	{
+		services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 
-			return services;
-		}
+		return services;
+	}
 
-		public static IServiceCollection AddServices(this IServiceCollection services)
-		{
-			services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));
+	public static IServiceCollection AddServices(this IServiceCollection services)
+	{
+		services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));
 
-			return services;
-		}
+		return services;
+	}
 
-		public static IServiceCollection AddFluentValidations(this IServiceCollection services)
-		{
-			return services.AddValidatorsFromAssembly(Assembly.Load("Inventory.Domain"), ServiceLifetime.Transient);
-		}
+	public static IServiceCollection AddFluentValidations(this IServiceCollection services)
+	{
+		return services.AddValidatorsFromAssembly(Assembly.Load("Inventory.Domain"), ServiceLifetime.Transient);
 	}
 }
