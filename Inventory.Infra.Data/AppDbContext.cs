@@ -1,13 +1,15 @@
+using Inventory.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Infra.Data;
 
 public class AppDbContext : DbContext
 {
+	public DbSet<User> User { get; set; }
+
 	public AppDbContext(DbContextOptions<AppDbContext> options)
 		: base(options)
 	{
-		this.Database.EnsureCreated();
 	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -17,13 +19,6 @@ public class AppDbContext : DbContext
 			property.SetColumnType("varchar(100)");
 
 		modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-
-		//var cascadeFKs = modelBuilder.Model.GetEntityTypes()
-		//		.SelectMany(t => t.GetForeignKeys())
-		//		.Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade && fk.DeleteBehavior != DeleteBehavior.ClientCascade);
-
-		//foreach (var fk in cascadeFKs)
-		//	fk.DeleteBehavior = DeleteBehavior.Restrict;
 	}
 
 	public override int SaveChanges()

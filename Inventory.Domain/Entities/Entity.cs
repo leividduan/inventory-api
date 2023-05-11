@@ -9,8 +9,7 @@ public abstract class Entity
 	public DateTime CreatedAt { get; set; }
 	public DateTime UpdatedAt { get; set; }
 
-	[NotMapped]
-	public ValidationResult ValidationResult { get; set; }
+	[NotMapped] public ValidationResult ValidationResult { get; set; }
 
 	public Entity()
 	{
@@ -25,7 +24,8 @@ public abstract class Entity
 
 	public Error? GetErrors()
 	{
-		var errorsDetail = ValidationResult.Errors.GroupBy(x => new { x.PropertyName }).Select(x => new ErrorDetails(x.Key.PropertyName, x.Select(s => s.ErrorMessage).ToList())).ToList();
+		var errorsDetail = ValidationResult.Errors.GroupBy(x => new { x.PropertyName })
+			.Select(x => new ErrorDetails(x.Key.PropertyName, x.Select(s => s.ErrorMessage).ToList())).ToList();
 
 		if (errorsDetail.Count == 0)
 			return null;
