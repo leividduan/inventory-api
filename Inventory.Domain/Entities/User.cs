@@ -5,11 +5,6 @@ namespace Inventory.Domain.Entities;
 
 public class User : Entity
 {
-	public string Name { get; private set; }
-	public string Email { get; private set; }
-	public string Password { get; private set; }
-	public bool IsActive { get; private set; }
-
 	public User(string name, string email, string password)
 	{
 		Name = name;
@@ -25,6 +20,11 @@ public class User : Entity
 		Password = password;
 		IsActive = isActive;
 	}
+
+	public string Name { get; private set; }
+	public string Email { get; private set; }
+	public string Password { get; private set; }
+	public bool IsActive { get; private set; }
 
 	public void HashPassword()
 	{

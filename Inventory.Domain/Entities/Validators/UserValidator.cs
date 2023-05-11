@@ -21,7 +21,8 @@ public class UserValidator : AbstractValidator<User>
 			.Custom((password, context) =>
 			{
 				if (!PasswordUtils.IsValidPasswordStrength(password))
-					context.AddFailure("Password should contain at least one lower case letter, upper case letter, one numeric value, one special case characters and should be greater or equal 8 characters and less or equal 30 characters");
+					context.AddFailure(
+						"Password should contain at least one lower case letter, upper case letter, one numeric value, one special case characters and should be greater or equal 8 characters and less or equal 30 characters");
 			});
 	}
 }

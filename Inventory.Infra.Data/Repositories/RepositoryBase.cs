@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Inventory.Domain.Entities;
 using Inventory.Domain.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Infra.Data.Repositories;
 
-public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity :  Entity
+public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : Entity
 {
 	private readonly AppDbContext _context;
 
@@ -43,15 +43,14 @@ public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : 
 	{
 		if (string.IsNullOrEmpty(include))
 			return _context.Set<TEntity>().SingleOrDefaultAsync(filter);
-		else
-			return _context.Set<TEntity>().Include(include).SingleOrDefaultAsync(filter);
+		return _context.Set<TEntity>().Include(include).SingleOrDefaultAsync(filter);
 	}
 
 	public Task<List<TEntity>> Get(Expression<Func<TEntity, bool>>? filter = null, string? include = null)
 	{
 		var entities = _context.Set<TEntity>().AsNoTracking();
 
-		if (!String.IsNullOrEmpty(include))
+		if (!string.IsNullOrEmpty(include))
 			entities = entities.Include(include);
 		if (filter != null)
 			entities = entities.Where(filter);

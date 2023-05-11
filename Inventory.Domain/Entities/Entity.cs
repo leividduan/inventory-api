@@ -1,16 +1,10 @@
-﻿using FluentValidation.Results;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using FluentValidation.Results;
 
 namespace Inventory.Domain.Entities;
 
 public abstract class Entity
 {
-	public int Id { get; set; }
-	public DateTime CreatedAt { get; set; }
-	public DateTime UpdatedAt { get; set; }
-
-	[NotMapped] public ValidationResult ValidationResult { get; set; }
-
 	public Entity()
 	{
 		var now = DateTime.Now;
@@ -19,6 +13,12 @@ public abstract class Entity
 
 		ValidationResult = new ValidationResult();
 	}
+
+	public int Id { get; set; }
+	public DateTime CreatedAt { get; set; }
+	public DateTime UpdatedAt { get; set; }
+
+	[NotMapped] public ValidationResult ValidationResult { get; set; }
 
 	public abstract bool IsValid();
 

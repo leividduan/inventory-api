@@ -1,11 +1,11 @@
 using System.Reflection;
 using System.Text;
-using Inventory.Domain.Services;
 using FluentValidation;
 using Inventory.Application.Interfaces;
 using Inventory.Application.Services;
 using Inventory.Domain.Interfaces.Repositories;
 using Inventory.Domain.Interfaces.Services;
+using Inventory.Domain.Services;
 using Inventory.Infra.Data;
 using Inventory.Infra.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

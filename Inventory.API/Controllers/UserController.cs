@@ -1,4 +1,3 @@
-using Inventory.API.Helpers;
 using Inventory.Application.Interfaces;
 using Inventory.Application.Models.User;
 using Inventory.Domain.Entities;
@@ -11,36 +10,36 @@ namespace Inventory.API.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-  private readonly IUserService _userService;
+	private readonly IUserService _userService;
 
-  public UserController(IUserService userService)
-  {
-    _userService = userService;
-  }
+	public UserController(IUserService userService)
+	{
+		_userService = userService;
+	}
 
-  [Route("register")]
-  [AllowAnonymous]
-  [HttpPost]
-  public async Task<IActionResult> Register([FromBody] RegisterRequest request)
-  {
-	  var user = new User(request.Name, request.Email, request.Password);
+	[Route("register")]
+	[AllowAnonymous]
+	[HttpPost]
+	public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+	{
+		var user = new User(request.Name, request.Email, request.Password);
 
-    if (!(user.IsValid() && await _userService.Validate(user)))
-      return BadRequest(user.GetErrors());
+		if (!(user.IsValid() && await _userService.Validate(user)))
+			return BadRequest(user.GetErrors());
 
-    var response = await _userService.Register(user);
-    return Ok(response);
-  }
+		var response = await _userService.Register(user);
+		return Ok(response);
+	}
 
-  [Route("authenticate")]
-  [AllowAnonymous]
-  [HttpPost]
-  public async Task<ActionResult<dynamic>> Authenticate([FromBody] AuthenticateRequest request)
-  {
-    var login = await _userService.Authenticate(request);
-    if (login == null)
+	[Route("authenticate")]
+	[AllowAnonymous]
+	[HttpPost]
+	public async Task<ActionResult<dynamic>> Authenticate([FromBody] AuthenticateRequest request)
+	{
+		var login = await _userService.Authenticate(request);
+		if (login == null)
 			return NotFound(new { error = "Invalid username or password." });
 
-	  return Ok(login);
-  }
+		return Ok(login);
+	}
 }

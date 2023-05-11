@@ -14,6 +14,11 @@ public class ServiceBase<TEntity> : IDisposable, IServiceBase<TEntity> where TEn
 		_repository = repository;
 	}
 
+	public void Dispose()
+	{
+		_repository?.Dispose();
+	}
+
 	public Task<bool> Add(TEntity entity)
 	{
 		return _repository.Add(entity);
@@ -42,10 +47,5 @@ public class ServiceBase<TEntity> : IDisposable, IServiceBase<TEntity> where TEn
 	public Task<List<TEntity>> Get(Expression<Func<TEntity, bool>>? filter = null, string? include = null)
 	{
 		return _repository.Get(filter, include);
-	}
-
-	public void Dispose()
-	{
-		_repository?.Dispose();
 	}
 }

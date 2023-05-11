@@ -4,5 +4,5 @@ namespace Inventory.Domain.Interfaces.Services;
 
 public interface ITokenService
 {
-  string GenerateToken(User user);
+	string GenerateToken(User user);
 }

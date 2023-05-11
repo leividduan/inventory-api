@@ -6,28 +6,28 @@ namespace Inventory.Infra.Data.Configurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {
-  public void Configure(EntityTypeBuilder<User> builder)
-  {
-    builder.HasKey(x => x.Id);
+	public void Configure(EntityTypeBuilder<User> builder)
+	{
+		builder.HasKey(x => x.Id);
 
-    // Properties
-    builder.Property(x => x.Name)
-      .IsRequired()
-      .HasMaxLength(150);
+		// Properties
+		builder.Property(x => x.Name)
+			.IsRequired()
+			.HasMaxLength(150);
 
-    builder.Property(x => x.Email)
-      .IsRequired()
-      .HasMaxLength(150);
+		builder.Property(x => x.Email)
+			.IsRequired()
+			.HasMaxLength(150);
 
-    builder.Property(x => x.Password)
-      .IsRequired()
-      .HasMaxLength(500);
+		builder.Property(x => x.Password)
+			.IsRequired()
+			.HasMaxLength(500);
 
-    // Relationships
+		// Relationships
 
 
-    // Indexes
-    builder.HasIndex(x => x.Email)
-      .IsUnique();
-  }
+		// Indexes
+		builder.HasIndex(x => x.Email)
+			.IsUnique();
+	}
 }

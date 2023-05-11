@@ -6,32 +6,33 @@ namespace Inventory.Domain.Utils;
 
 public static class PasswordUtils
 {
-  public static bool IsValidPasswordStrength(string password)
-  {
-    if (string.IsNullOrEmpty(password)) return false;
+	public static bool IsValidPasswordStrength(string password)
+	{
+		if (string.IsNullOrEmpty(password)) return false;
 
-    var hasNumber = new Regex(@"[0-9]+");
-    var hasUpperChar = new Regex(@"[A-Z]+");
-    var hasMiniMaxChars = new Regex(@".{8,30}");
-    var hasLowerChar = new Regex(@"[a-z]+");
-    var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
+		var hasNumber = new Regex(@"[0-9]+");
+		var hasUpperChar = new Regex(@"[A-Z]+");
+		var hasMiniMaxChars = new Regex(@".{8,30}");
+		var hasLowerChar = new Regex(@"[a-z]+");
+		var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
 
-    return hasNumber.IsMatch(password) && hasUpperChar.IsMatch(password) && hasMiniMaxChars.IsMatch(password) && hasLowerChar.IsMatch(password) && hasSymbols.IsMatch(password);
-  }
+		return hasNumber.IsMatch(password) && hasUpperChar.IsMatch(password) && hasMiniMaxChars.IsMatch(password) &&
+		       hasLowerChar.IsMatch(password) && hasSymbols.IsMatch(password);
+	}
 
-  public static string HashPassword(string password)
-  {
-    if (string.IsNullOrEmpty(password))
-      return string.Empty;
+	public static string HashPassword(string password)
+	{
+		if (string.IsNullOrEmpty(password))
+			return string.Empty;
 
-    var input = Encoding.UTF8.GetBytes(password);
-    using var hashAlgorithm = SHA256.Create();
-    return Convert.ToBase64String(hashAlgorithm.ComputeHash(input));
-  }
+		var input = Encoding.UTF8.GetBytes(password);
+		using var hashAlgorithm = SHA256.Create();
+		return Convert.ToBase64String(hashAlgorithm.ComputeHash(input));
+	}
 
-  public static bool VerifyPassword(string passwordToVerify, string passwordVerified)
-  {
-    var hashedPasswordToVerify = HashPassword(passwordToVerify);
-    return hashedPasswordToVerify.Equals(passwordVerified);
-  }
+	public static bool VerifyPassword(string passwordToVerify, string passwordVerified)
+	{
+		var hashedPasswordToVerify = HashPassword(passwordToVerify);
+		return hashedPasswordToVerify.Equals(passwordVerified);
+	}
 }

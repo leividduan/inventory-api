@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using Inventory.Application.Models.User;
-using Microsoft.AspNetCore.Identity;
 
 namespace Inventory.API.Helpers;
 
@@ -18,8 +17,8 @@ public static class ClaimHelper
 		return new UserClaim(userId, name, email);
 	}
 
-  public static int GetUserIdClaim(this IEnumerable<Claim> claims)
-  {
-    return int.Parse(claims.FirstOrDefault(x => x.Type == "UserId")?.Value ?? "0");
-  }
+	public static int GetUserIdClaim(this IEnumerable<Claim> claims)
+	{
+		return int.Parse(claims.FirstOrDefault(x => x.Type == "UserId")?.Value ?? "0");
+	}
 }

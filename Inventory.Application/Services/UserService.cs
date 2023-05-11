@@ -24,7 +24,7 @@ public class UserService : ServiceBase<User>, IUserService
 	{
 		var existingEmail = await _repository.GetSingle(x => x.Email == user.Email);
 		if (existingEmail != null)
-			user.ValidationResult.Errors.Add(new ValidationFailure (nameof(user.Email), "This Email is already being used"));
+			user.ValidationResult.Errors.Add(new ValidationFailure(nameof(user.Email), "This Email is already being used"));
 
 		return user.ValidationResult.IsValid;
 	}
