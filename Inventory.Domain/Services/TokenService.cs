@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace DezContas.Domain.Services;
+namespace Inventory.Domain.Services;
 
 public class TokenService : ITokenService
 {

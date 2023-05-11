@@ -25,12 +25,8 @@ public static class PasswordUtils
       return string.Empty;
 
     var input = Encoding.UTF8.GetBytes(password);
-    using (var hashAlgorithm = HashAlgorithm.Create("sha256"))
-    {
-      if (hashAlgorithm == null) return string.Empty;
-
-      return Convert.ToBase64String(hashAlgorithm.ComputeHash(input));
-    }
+    using var hashAlgorithm = SHA256.Create();
+    return Convert.ToBase64String(hashAlgorithm.ComputeHash(input));
   }
 
   public static bool VerifyPassword(string passwordToVerify, string passwordVerified)
