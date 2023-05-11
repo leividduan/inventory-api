@@ -1,12 +1,11 @@
 using System.Reflection;
 using System.Text;
-using DezContas.Domain.Services;
+using Inventory.Domain.Services;
 using FluentValidation;
 using Inventory.Application.Interfaces;
 using Inventory.Application.Services;
 using Inventory.Domain.Interfaces.Repositories;
 using Inventory.Domain.Interfaces.Services;
-using Inventory.Domain.Services;
 using Inventory.Infra.Data;
 using Inventory.Infra.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -52,7 +51,6 @@ public static class DependencyInjection
 	public static IServiceCollection AddDomainServices(this IServiceCollection services)
 	{
 		services.AddScoped<ITokenService, TokenService>();
-		services.AddScoped<IAuthService, AuthService>();
 
 		return services;
 	}
