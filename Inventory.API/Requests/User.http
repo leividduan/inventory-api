@@ -1,0 +1,19 @@
+### Register
+POST {{host}}api/v1/user/register
+Content-Type: application/json
+
+{
+	"name": "Deivid",
+	"email": "mail2@gmail.com",
+	"password": "Teste321#"
+}
+
+
+### Authenticate
+POST {{host}}api/v1/user/authenticate
+Content-Type: application/json
+
+{
+	"email": "mail2@gmail.com",
+	"password": "Teste321#"
+}
