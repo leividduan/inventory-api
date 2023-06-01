@@ -5,10 +5,10 @@ namespace Inventory.Domain.Interfaces.Repositories;
 
 public interface IRepositoryBase<TEntity> : IDisposable where TEntity : Entity
 {
-	public Task<TEntity?> GetSingle(Expression<Func<TEntity, bool>> filter, string? include = null);
-	public Task<List<TEntity>> Get(Expression<Func<TEntity, bool>>? filter = null, string? include = null);
-	public Task<bool> Add(TEntity entity);
-	public Task<bool> Edit(TEntity entity);
-	public Task<bool> Delete(TEntity entity);
-	public Task<int> Save();
+	public Task<TEntity?> GetSingleAsync(Expression<Func<TEntity, bool>> filter, string? include = null);
+	public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? filter = null, string? include = null);
+	public Task<bool> AddAsync(TEntity entity);
+	public Task<bool> EditAsync(TEntity entity);
+	public Task<bool> DeleteAsync(TEntity entity);
+	public Task<int> SaveAsync();
 }

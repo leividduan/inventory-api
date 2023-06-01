@@ -14,39 +14,44 @@ public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : 
 		_context = context;
 	}
 
-	public async Task<bool> Add(TEntity entity)
+	public async Task<bool> AddAsync(TEntity entity)
 	{
 		await _context.Set<TEntity>().AddAsync(entity);
 		return await _context.SaveChangesAsync() > 0;
 	}
 
-	public async Task<bool> Edit(TEntity entity)
+	public async Task<bool> EditAsync(TEntity entity)
 	{
 		_context.Entry(entity).State = EntityState.Modified;
 		_context.Set<TEntity>().Update(entity);
 		return await _context.SaveChangesAsync() > 0;
 	}
 
-	public async Task<bool> Delete(TEntity entity)
+	public async Task<bool> DeleteAsync(TEntity entity)
 	{
 		_context.Set<TEntity>().Remove(entity);
 		await _context.SaveChangesAsync();
 		return await _context.SaveChangesAsync() > 0;
 	}
 
-	public Task<int> Save()
+	public Task<int> SaveAsync()
 	{
 		return _context.SaveChangesAsync();
 	}
 
-	public Task<TEntity?> GetSingle(Expression<Func<TEntity, bool>> filter, string? include = null)
+	public void Dispose()
+	{
+		_context?.Dispose();
+	}
+
+	public Task<TEntity?> GetSingleAsync(Expression<Func<TEntity, bool>> filter, string? include = null)
 	{
 		if (string.IsNullOrEmpty(include))
 			return _context.Set<TEntity>().SingleOrDefaultAsync(filter);
 		return _context.Set<TEntity>().Include(include).SingleOrDefaultAsync(filter);
 	}
 
-	public Task<List<TEntity>> Get(Expression<Func<TEntity, bool>>? filter = null, string? include = null)
+	public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? filter = null, string? include = null)
 	{
 		var entities = _context.Set<TEntity>().AsNoTracking();
 
@@ -56,10 +61,5 @@ public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : 
 			entities = entities.Where(filter);
 
 		return entities.ToListAsync();
-	}
-
-	public void Dispose()
-	{
-		_context?.Dispose();
 	}
 }

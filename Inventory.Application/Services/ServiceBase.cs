@@ -19,33 +19,33 @@ public class ServiceBase<TEntity> : IDisposable, IServiceBase<TEntity> where TEn
 		_repository?.Dispose();
 	}
 
-	public Task<bool> Add(TEntity entity)
+	public Task<bool> AddAsync(TEntity entity)
 	{
-		return _repository.Add(entity);
+		return _repository.AddAsync(entity);
 	}
 
-	public Task<bool> Edit(TEntity entity)
+	public Task<bool> EditAsync(TEntity entity)
 	{
-		return _repository.Edit(entity);
+		return _repository.EditAsync(entity);
 	}
 
-	public Task<bool> Delete(TEntity entity)
+	public Task<bool> DeleteAsync(TEntity entity)
 	{
-		return _repository.Delete(entity);
+		return _repository.DeleteAsync(entity);
 	}
 
-	public Task<int> Save()
+	public Task<int> SaveAsync()
 	{
-		return _repository.Save();
+		return _repository.SaveAsync();
 	}
 
-	public Task<TEntity?> GetSingle(Expression<Func<TEntity, bool>> filter, string? include = null)
+	public Task<TEntity?> GetSingleAsync(Expression<Func<TEntity, bool>> filter, string? include = null)
 	{
-		return _repository.GetSingle(filter, include);
+		return _repository.GetSingleAsync(filter, include);
 	}
 
-	public Task<List<TEntity>> Get(Expression<Func<TEntity, bool>>? filter = null, string? include = null)
+	public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? filter = null, string? include = null)
 	{
-		return _repository.Get(filter, include);
+		return _repository.GetAsync(filter, include);
 	}
 }
