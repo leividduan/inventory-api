@@ -36,6 +36,7 @@ public static class DependencyInjection
 	{
 		services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 		services.AddScoped<IUserRepository, UserRepository>();
+		services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 		return services;
 	}
@@ -44,6 +45,7 @@ public static class DependencyInjection
 	{
 		services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));
 		services.AddScoped<IUserService, UserService>();
+		services.AddScoped<ICompanyService, CompanyService>();
 
 		return services;
 	}

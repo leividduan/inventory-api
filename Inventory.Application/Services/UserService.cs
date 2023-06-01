@@ -22,7 +22,7 @@ public class UserService : ServiceBase<User>, IUserService
 
 	public async Task<bool> Validate(User user)
 	{
-		var existingEmail = await _repository.GetSingle(x => x.Email == user.Email);
+		var existingEmail = await _repository.GetSingleAsync(x => x.Email == user.Email);
 		if (existingEmail != null)
 			user.ValidationResult.Errors.Add(new ValidationFailure(nameof(user.Email), "This Email is already being used"));
 
@@ -32,14 +32,14 @@ public class UserService : ServiceBase<User>, IUserService
 	public async Task<RegisterResponse> Register(User user)
 	{
 		user.HashPassword();
-		await _repository.Add(user);
+		await _repository.AddAsync(user);
 
 		return new RegisterResponse(user.Id, user.Name, user.Email, user.IsActive, user.CreatedAt, user.UpdatedAt);
 	}
 
 	public async Task<AuthenticateResponse?> Authenticate(AuthenticateRequest request)
 	{
-		var user = await _repository.GetSingle(x => x.Email == request.Email);
+		var user = await _repository.GetSingleAsync(x => x.Email == request.Email);
 
 		// validate
 		if (user == null || !PasswordUtils.VerifyPassword(request.Password, user.Password))

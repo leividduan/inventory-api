@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.API.Controllers;
 
-[Route("api/v1/user")]
+[Route("api/v1/users")]
 [ApiController]
 public class UserController : ControllerBase
 {

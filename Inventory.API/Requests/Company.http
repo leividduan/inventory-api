@@ -1,0 +1,4 @@
+### Get
+GET {{host}}api/v1/companies
+Authorization: Bearer {{token}}
+
