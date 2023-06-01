@@ -366,6 +366,8 @@ MigrationBackup/
 FodyWeavers.xsd
 *.DotSettings
 
-.idea
+.idea/
 
 obj/
+
+Requests/http-client.env.json
