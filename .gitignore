@@ -370,4 +370,5 @@ FodyWeavers.xsd
 
 obj/
 
-Requests/http-client.env.json
+ 
+Inventory.API/Requests/http-client.env.json
