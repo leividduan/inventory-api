@@ -8,6 +8,13 @@ public class Company : Entity
 	public string Document { get; set; }
 	public bool IsActive { get; set; }
 
+	public Company(string name, string document, bool isActive)
+	{
+		Name = name;
+		Document = document;
+		IsActive = isActive;
+	}
+
 	public override bool IsValid()
 	{
 		ValidationResult = new CompanyValidator().Validate(this);
