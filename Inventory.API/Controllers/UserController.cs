@@ -24,7 +24,7 @@ public class UserController : ControllerBase
 	{
 		var user = new User(request.Name, request.Email, request.Password);
 
-		if (!(user.IsValid() && await _userService.Validate(user)))
+		if (!(user.IsValid() && await _userService.ValidateAsync(user)))
 			return BadRequest(user.GetErrors());
 
 		var response = await _userService.RegisterAsync(user);

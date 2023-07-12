@@ -21,7 +21,7 @@ public class UserControllerTests
 	public async Task User_Register_Successfully_OkObjectResult()
 	{
 		// Arrange
-		_mockService.Setup(service => service.Validate(It.IsAny<User>())).ReturnsAsync(true);
+		_mockService.Setup(service => service.ValidateAsync(It.IsAny<User>())).ReturnsAsync(true);
 		_mockService.Setup(service => service.RegisterAsync(It.IsAny<User>()))
 			.ReturnsAsync(new RegisterResponse(1, "Deivid", "deivid@mail.com", true, DateTime.Now, DateTime.Now));
 		var request = new RegisterRequest("Deivid", "deivid@mail.com", "Teste#123");
@@ -40,7 +40,7 @@ public class UserControllerTests
 	public async Task User_Register_Invalid_User_BadRequestObjectResult()
 	{
 		// Arrange
-		_mockService.Setup(service => service.Validate(It.IsAny<User>())).ReturnsAsync(false);
+		_mockService.Setup(service => service.ValidateAsync(It.IsAny<User>())).ReturnsAsync(false);
 		var request = new RegisterRequest("Deivid", "deivid@mail.com", "teste");
 
 		// Act
@@ -57,7 +57,7 @@ public class UserControllerTests
 	public async Task User_Register_Invalid_Database_User_BadRequestObjectResult()
 	{
 		// Arrange
-		_mockService.Setup(service => service.Validate(It.IsAny<User>())).ReturnsAsync(true);
+		_mockService.Setup(service => service.ValidateAsync(It.IsAny<User>())).ReturnsAsync(true);
 		var request = new RegisterRequest("Deivid", "deivid@mail.com", "teste");
 
 		// Act

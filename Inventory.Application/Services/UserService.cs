@@ -20,7 +20,7 @@ public class UserService : ServiceBase<User>, IUserService
 		_tokenService = tokenService;
 	}
 
-	public async Task<bool> Validate(User user)
+	public async Task<bool> ValidateAsync(User user)
 	{
 		var existingEmail = await _repository.GetSingleAsync(x => x.Email == user.Email);
 		if (existingEmail != null)
