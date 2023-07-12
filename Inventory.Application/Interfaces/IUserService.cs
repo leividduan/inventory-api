@@ -7,6 +7,6 @@ namespace Inventory.Application.Interfaces;
 public interface IUserService : IServiceBase<User>
 {
 	Task<bool> Validate(User user);
-	Task<AuthenticateResponse?> Authenticate(AuthenticateRequest request);
-	Task<RegisterResponse> Register(User user);
+	Task<AuthenticateResponse?> AuthenticateAsync(AuthenticateRequest request);
+	Task<RegisterResponse> RegisterAsync(User user);
 }

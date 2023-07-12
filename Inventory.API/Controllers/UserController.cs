@@ -27,16 +27,16 @@ public class UserController : ControllerBase
 		if (!(user.IsValid() && await _userService.Validate(user)))
 			return BadRequest(user.GetErrors());
 
-		var response = await _userService.Register(user);
+		var response = await _userService.RegisterAsync(user);
 		return Ok(response);
 	}
 
 	[Route("authenticate")]
 	[AllowAnonymous]
 	[HttpPost]
-	public async Task<ActionResult<dynamic>> Authenticate([FromBody] AuthenticateRequest request)
+	public async Task<ActionResult> Authenticate([FromBody] AuthenticateRequest request)
 	{
-		var login = await _userService.Authenticate(request);
+		var login = await _userService.AuthenticateAsync(request);
 		if (login == null)
 			return NotFound(new { error = "Invalid username or password." });
 

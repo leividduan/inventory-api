@@ -29,7 +29,7 @@ public class UserService : ServiceBase<User>, IUserService
 		return user.ValidationResult.IsValid;
 	}
 
-	public async Task<RegisterResponse> Register(User user)
+	public async Task<RegisterResponse> RegisterAsync(User user)
 	{
 		user.HashPassword();
 		await _repository.AddAsync(user);
@@ -37,7 +37,7 @@ public class UserService : ServiceBase<User>, IUserService
 		return new RegisterResponse(user.Id, user.Name, user.Email, user.IsActive, user.CreatedAt, user.UpdatedAt);
 	}
 
-	public async Task<AuthenticateResponse?> Authenticate(AuthenticateRequest request)
+	public async Task<AuthenticateResponse?> AuthenticateAsync(AuthenticateRequest request)
 	{
 		var user = await _repository.GetSingleAsync(x => x.Email == request.Email);
 
