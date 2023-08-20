@@ -2,6 +2,7 @@ namespace Inventory.Domain.Entities;
 
 public class CompanyUser
 {
+	[Flags]
 	public enum Roles
 	{
 		Standard = 0,

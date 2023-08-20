@@ -86,7 +86,7 @@ public class CompanyController : ControllerBase
 
 		return await _companyService.AssociateUserAsync(user.IdUser, id, idUser, enumRole)
 			? NoContent()
-			: NotFound();
+			: BadRequest("You don't have access to this operation.");
 	}
 
 	[HttpPost("{id:int}/disassociate-user/{idUser:int}")]
@@ -96,6 +96,6 @@ public class CompanyController : ControllerBase
 
 		return await _companyService.DisassociateUserAsync(user.IdUser, id, idUser)
 			? NoContent()
-			: NotFound();
+			: BadRequest("You don't have access to this operation.");
 	}
 }

@@ -17,7 +17,8 @@ public class CompanyService : ServiceBase<Company>, ICompanyService
 		CompanyUser.Roles role)
 	{
 		var company =
-			await _repository.GetSingleAsync(x => x.Id == idCompany && x.CompanyUser.Any(i => i.IdUser == idCurrentUser));
+			await _repository.GetSingleAsync(x => x.Id == idCompany && x.CompanyUser.Any(i =>
+				i.IdUser == idCurrentUser && (i.Role == CompanyUser.Roles.Manager || i.Role == CompanyUser.Roles.Admin)));
 		if (company == null)
 			return false;
 
@@ -28,7 +29,8 @@ public class CompanyService : ServiceBase<Company>, ICompanyService
 	public async Task<bool> DisassociateUserAsync(int idCurrentUser, int idCompany, int idUserToDisassociate)
 	{
 		var company =
-			await _repository.GetSingleAsync(x => x.Id == idCompany && x.CompanyUser.Any(i => i.IdUser == idCurrentUser),
+			await _repository.GetSingleAsync(x => x.Id == idCompany && x.CompanyUser.Any(i =>
+					i.IdUser == idCurrentUser && (i.Role == CompanyUser.Roles.Manager || i.Role == CompanyUser.Roles.Admin)),
 				"CompanyUser");
 		if (company == null)
 			return false;
