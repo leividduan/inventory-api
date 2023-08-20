@@ -1,10 +1,9 @@
 namespace Inventory.API.Models.User;
 
 public record RegisterResponse(
-	int Id,
-	string Name,
-	string Email,
-	bool IsActive,
-	DateTime CreatedAt,
-	DateTime UpdatedAt
+	int id,
+	string name,
+	string email,
+	bool is_active,
+	string token
 );

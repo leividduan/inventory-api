@@ -26,6 +26,10 @@ public class User : Entity
 	public string Password { get; private set; }
 	public bool IsActive { get; private set; }
 
+	// Relationship
+
+	public ICollection<CompanyUser> CompanyUser { get; set; }
+
 	public void HashPassword()
 	{
 		Password = PasswordUtils.HashPassword(Password);

@@ -34,15 +34,16 @@ public class UserService : ServiceBase<User>, IUserService
 		user.HashPassword();
 		await _repository.AddAsync(user);
 
-		return new RegisterResponse(user.Id, user.Name, user.Email, user.IsActive, user.CreatedAt, user.UpdatedAt);
+		var token = _tokenService.GenerateToken(user);
+		return new RegisterResponse(user.Id, user.Name, user.Email, user.IsActive, token);
 	}
 
 	public async Task<AuthenticateResponse?> AuthenticateAsync(AuthenticateRequest request)
 	{
-		var user = await _repository.GetSingleAsync(x => x.Email == request.Email);
+		var user = await _repository.GetSingleAsync(x => x.Email == request.email, "CompanyUser");
 
 		// validate
-		if (user == null || !PasswordUtils.VerifyPassword(request.Password, user.Password))
+		if (user == null || !PasswordUtils.VerifyPassword(request.password, user.Password))
 			return null;
 
 		var token = _tokenService.GenerateToken(user);

@@ -17,8 +17,11 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 
 		builder.Property(x => x.Document)
 			.IsRequired()
-			.HasMaxLength(14);
+			.HasMaxLength(18);
 
+		// Indexes
+		builder.HasIndex(i => i.Document)
+			.IsUnique();
 
 		// Relationships
 	}

@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Inventory.Domain.Utils;
@@ -25,14 +23,11 @@ public static class PasswordUtils
 		if (string.IsNullOrEmpty(password))
 			return string.Empty;
 
-		var input = Encoding.UTF8.GetBytes(password);
-		using var hashAlgorithm = SHA256.Create();
-		return Convert.ToBase64String(hashAlgorithm.ComputeHash(input));
+		return BCrypt.Net.BCrypt.HashPassword(password, 12);
 	}
 
 	public static bool VerifyPassword(string passwordToVerify, string passwordVerified)
 	{
-		var hashedPasswordToVerify = HashPassword(passwordToVerify);
-		return hashedPasswordToVerify.Equals(passwordVerified);
+		return BCrypt.Net.BCrypt.Verify(passwordToVerify, passwordVerified);
 	}
 }

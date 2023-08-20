@@ -32,7 +32,7 @@ public static class DependencyInjection
 		return services;
 	}
 
-	public static IServiceCollection AddRepositories(this IServiceCollection services)
+	private static IServiceCollection AddRepositories(this IServiceCollection services)
 	{
 		services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 		services.AddScoped<IUserRepository, UserRepository>();
@@ -41,7 +41,7 @@ public static class DependencyInjection
 		return services;
 	}
 
-	public static IServiceCollection AddServices(this IServiceCollection services)
+	private static IServiceCollection AddServices(this IServiceCollection services)
 	{
 		services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));
 		services.AddScoped<IUserService, UserService>();
@@ -50,19 +50,19 @@ public static class DependencyInjection
 		return services;
 	}
 
-	public static IServiceCollection AddDomainServices(this IServiceCollection services)
+	private static IServiceCollection AddDomainServices(this IServiceCollection services)
 	{
 		services.AddScoped<ITokenService, TokenService>();
 
 		return services;
 	}
 
-	public static IServiceCollection AddFluentValidations(this IServiceCollection services)
+	private static IServiceCollection AddFluentValidations(this IServiceCollection services)
 	{
 		return services.AddValidatorsFromAssembly(Assembly.Load("Inventory.Domain"), ServiceLifetime.Transient);
 	}
 
-	public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+	private static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
 	{
 		var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("TokenJwt"));
 		services.AddAuthentication(x =>

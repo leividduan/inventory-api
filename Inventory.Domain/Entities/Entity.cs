@@ -5,7 +5,7 @@ namespace Inventory.Domain.Entities;
 
 public abstract class Entity
 {
-	public Entity()
+	protected Entity()
 	{
 		var now = DateTime.Now;
 		CreatedAt = now;

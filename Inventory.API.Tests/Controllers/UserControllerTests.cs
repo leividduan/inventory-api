@@ -7,13 +7,13 @@ namespace Inventory.API.Tests.Controllers;
 
 public class UserControllerTests
 {
-	private readonly UserController _controller;
+	private readonly AuthController _controller;
 	private readonly Mock<IUserService> _mockService;
 
 	public UserControllerTests()
 	{
 		_mockService = new Mock<IUserService>();
-		_controller = new UserController(_mockService.Object);
+		_controller = new AuthController(_mockService.Object);
 	}
 
 	[Trait("User", "Register")]
@@ -23,7 +23,7 @@ public class UserControllerTests
 		// Arrange
 		_mockService.Setup(service => service.ValidateAsync(It.IsAny<User>())).ReturnsAsync(true);
 		_mockService.Setup(service => service.RegisterAsync(It.IsAny<User>()))
-			.ReturnsAsync(new RegisterResponse(1, "Deivid", "deivid@mail.com", true, DateTime.Now, DateTime.Now));
+			.ReturnsAsync(new RegisterResponse(1, "Deivid", "deivid@mail.com", true, "FAKE_JWT"));
 		var request = new RegisterRequest("Deivid", "deivid@mail.com", "Teste#123");
 
 		// Act

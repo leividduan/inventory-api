@@ -1,3 +1,3 @@
 namespace Inventory.Application.Models.User;
 
-public record UserClaim(int UserId, string Name, string Email);
+public record UserClaim(int IdUser, string Name, string Email, List<int> AllowedCompanies);

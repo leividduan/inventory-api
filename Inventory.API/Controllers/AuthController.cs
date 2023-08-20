@@ -6,23 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.API.Controllers;
 
-[Route("api/v1/users")]
+[Route("api/v1/auth")]
 [ApiController]
-public class UserController : ControllerBase
+public class AuthController : ControllerBase
 {
 	private readonly IUserService _userService;
 
-	public UserController(IUserService userService)
+	public AuthController(IUserService userService)
 	{
 		_userService = userService;
 	}
 
-	[Route("register")]
+	[Route("signup")]
 	[AllowAnonymous]
 	[HttpPost]
 	public async Task<IActionResult> Register([FromBody] RegisterRequest request)
 	{
-		var user = new User(request.Name, request.Email, request.Password);
+		var user = new User(request.name, request.email, request.password);
 
 		if (!(user.IsValid() && await _userService.ValidateAsync(user)))
 			return BadRequest(user.GetErrors());
@@ -31,7 +31,7 @@ public class UserController : ControllerBase
 		return Ok(response);
 	}
 
-	[Route("authenticate")]
+	[Route("signin")]
 	[AllowAnonymous]
 	[HttpPost]
 	public async Task<ActionResult> Authenticate([FromBody] AuthenticateRequest request)

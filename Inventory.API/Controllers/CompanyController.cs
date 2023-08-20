@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Inventory.API.Controllers;
 
 [Route("api/v1/companies")]
+[Authorize]
 [ApiController]
 public class CompanyController : ControllerBase
 {
@@ -18,13 +19,14 @@ public class CompanyController : ControllerBase
 		_companyService = companyService;
 	}
 
-	[Authorize]
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
 		var user = HttpContext.User.GetUserData();
 
-		var companies = await _companyService.GetAsync();
+		var companies =
+			await _companyService.GetAsync(x => x.CompanyUser.Any(i => i.IdUser == user.IdUser),
+				"CompanyUser");
 
 		var response = companies.Select(cp =>
 			new CompanyResponse(cp.Id, cp.Name, cp.Document, cp.IsActive, cp.CreatedAt, cp.UpdatedAt));
@@ -35,7 +37,9 @@ public class CompanyController : ControllerBase
 	[HttpGet("{id:int}", Name = nameof(GetCompanyById))]
 	public async Task<IActionResult> GetCompanyById(int id)
 	{
-		var company = await _companyService.GetSingleAsync(x => x.Id == id);
+		var user = HttpContext.User.GetUserData();
+		var company =
+			await _companyService.GetSingleAsync(x => x.Id == id && x.CompanyUser.Any(i => i.IdUser == user.IdUser));
 
 		if (company == null)
 			return NotFound();
@@ -46,10 +50,10 @@ public class CompanyController : ControllerBase
 		return Ok(response);
 	}
 
-	[AllowAnonymous]
 	[HttpPost]
 	public async Task<IActionResult> Post([FromBody] CompanyPostRequest request)
 	{
+		var user = HttpContext.User.GetUserData();
 		var company = new Company(request.Name, request.Document, request.IsActive);
 
 		if (!company.IsValid())
@@ -61,6 +65,7 @@ public class CompanyController : ControllerBase
 			return BadRequest(error);
 		}
 
+		company.AssociateUser(user.IdUser, CompanyUser.Roles.Admin);
 		await _companyService.AddAsync(company);
 
 		var response = new CompanyResponse(company.Id, company.Name, company.Document, company.IsActive,
@@ -69,5 +74,28 @@ public class CompanyController : ControllerBase
 
 		return new CreatedAtRouteResult(nameof(GetCompanyById), new { id = response.Id },
 			response);
+	}
+
+	[HttpPost("{id:int}/associate-user/{idUser:int}")]
+	public async Task<IActionResult> AssociateUser(int id, int idUser, [FromBody] AssociateUserRequest request)
+	{
+		var user = HttpContext.User.GetUserData();
+
+		if (!Enum.TryParse(request.role, out CompanyUser.Roles enumRole))
+			return BadRequest();
+
+		return await _companyService.AssociateUserAsync(user.IdUser, id, idUser, enumRole)
+			? NoContent()
+			: NotFound();
+	}
+
+	[HttpPost("{id:int}/disassociate-user/{idUser:int}")]
+	public async Task<IActionResult> DisassociateUser(int id, int idUser)
+	{
+		var user = HttpContext.User.GetUserData();
+
+		return await _companyService.DisassociateUserAsync(user.IdUser, id, idUser)
+			? NoContent()
+			: NotFound();
 	}
 }

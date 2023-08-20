@@ -23,9 +23,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 			.IsRequired()
 			.HasMaxLength(500);
 
-		// Relationships
-
-
 		// Indexes
 		builder.HasIndex(x => x.Email)
 			.IsUnique();
