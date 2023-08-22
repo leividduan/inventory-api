@@ -22,7 +22,7 @@ public static class DependencyInjection
 	{
 		var connectionString = configuration.GetConnectionString("DefaultConnection");
 		services.AddDbContextPool<AppDbContext>(options =>
-			options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+			options.UseNpgsql(connectionString));
 		services.AddServices();
 		services.AddRepositories();
 		services.AddDomainServices();
